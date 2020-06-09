@@ -2,7 +2,6 @@
   This bot let you control [PM2](https://pm2.io/doc/) with Telegram
 # The difference from original MrMarble bot
   Added env variable at config.json of bot owner telegram id, which prevents unauthorized users from command access
-  Example:
   ```{
     "name": "PM2 Bot",
     "script": "bot.js",
