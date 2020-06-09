@@ -8,7 +8,7 @@
     "watch": true,
     "env": {
       "TOKEN": "your token from botfather here",
-      "ID": 111111111
+      "ID": 111111111 <- this is your telegram user id - integer
     }
   }
   ```
