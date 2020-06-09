@@ -1,6 +1,7 @@
 # PM2-Telegram-bot
   This bot let you control [PM2](https://pm2.io/doc/) with Telegram
-
+# The difference from original MrMarble bot
+  Added env variable at config.json of bot owner telegram id, which prevents unauthorized users from command access
 ## How to install
 1. Clone the repository in the same computer/server where pm2 is running
 2. Run `npm install` in the same directory as the project files to install all the dependencies
