@@ -1,6 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api');
 const pm2 = require('pm2');
-var config = require('./config.json');
+var config = require('./config.json'); // COMMENT THIS IF USUNG "pm2 start config.json"
 
 const TOKEN = process.env.TOKEN || config.env.TOKEN;
 const OWNER = process.env.ID || config.env.ID; //ADD OWNER ID INTEGER FIELD TO THE config.json to prevent unauthorized access
