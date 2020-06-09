@@ -1,7 +1,10 @@
 const TelegramBot = require('node-telegram-bot-api');
 const pm2 = require('pm2');
+var config = require('./config.json');
 
-const TOKEN = process.env.TOKEN || "YOUR TOKEN HERE";
+const TOKEN = process.env.TOKEN || config.env.TOKEN;
+const OWNER = process.env.ID || config.env.ID; //ADD OWNER ID INTEGER FIELD TO THE config.json to prevent unauthorized access
+
 const bot = new TelegramBot(TOKEN, {
   polling: {
     autoStart: false,
@@ -39,6 +42,10 @@ function generalCallback(msg) {
 }
 
 function commandListCallback(msg, match) {
+  if(msg.from.id !== OWNER) {
+    console.log("wrong person tried to execute 'list' command")
+    return;
+  }
   const chat_id = msg.chat.id;
   const status = {
     online: "\u{2705}",
@@ -71,6 +78,10 @@ function commandListCallback(msg, match) {
 }
 
 function commandRestartCallback(msg, match) {
+  if(msg.from.id !== OWNER) {
+    console.log("wrong person tried to execute 'restart' command")
+    return;
+  }
   const chat_id = msg.chat.id;
   let proc = match[1];
   pm2.restart(proc, function(err, pr) {

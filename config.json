@@ -3,6 +3,7 @@
   "script": "bot.js",
   "watch": true,
   "env": {
-    "TOKEN": "",
+    "TOKEN": "1268302849:AAGUQoSFjnYxWD9da0_IlEwPUYIoipjCWP4",
+    "ID": 53569640
   }
 }
