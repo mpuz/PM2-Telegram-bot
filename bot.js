@@ -3,7 +3,8 @@ const pm2 = require('pm2');
 var config = require('./config.json'); // COMMENT THIS IF USUNG "pm2 start config.json"
 
 const TOKEN = process.env.TOKEN || config.env.TOKEN;
-const OWNER = process.env.ID || config.env.ID; //ADD OWNER ID INTEGER FIELD TO THE config.json to prevent unauthorized access
+const OWNER = process.env.OWNER_ID || config.env.OWNER_ID; //ADD OWNER_ID INTEGER FIELD TO THE config.json to prevent unauthorized access
+const USERS = JSON.parse(process.env.USERS || config.env.USERS || '[]'); 
 
 const bot = new TelegramBot(TOKEN, {
   polling: {
@@ -41,10 +42,14 @@ function generalCallback(msg) {
   console.log(`[${formattedTime}] Message (${msg.message_id}) received from @${msg.from.username} (${msg.from.id})`);
 }
 
+
+
 function commandListCallback(msg, match) {
   if(msg.from.id !== OWNER) {
-    console.log("wrong person tried to execute 'list' command")
-    return;
+    if(!USERS.map(x => x.ID).includes(msg.from.id)) {
+      console.log("wrong person tried to execute 'restart' command")
+      return;
+    }
   }
   const chat_id = msg.chat.id;
   const status = {
@@ -78,12 +83,19 @@ function commandListCallback(msg, match) {
 }
 
 function commandRestartCallback(msg, match) {
-  if(msg.from.id !== OWNER) {
-    console.log("wrong person tried to execute 'restart' command")
-    return;
-  }
   const chat_id = msg.chat.id;
   let proc = match[1];
+  if(msg.from.id !== OWNER) {
+    if(!USERS.map(x => x.ID).includes(msg.from.id)) { //check if user id is in the users list
+      console.log("wrong person tried to execute 'restart' process", proc)
+      return;
+    } else {
+      if (!USERS[USERS.map(x => x.ID).indexOf(msg.from.id)]['PROCS'].includes(parseInt(proc))) { //check if user has process id allowed to restart
+        console.log("user not allowed to 'restart' this process")
+        return;
+      }
+    }
+  }
   pm2.restart(proc, function(err, pr) {
     if (err) {
       error(err);
