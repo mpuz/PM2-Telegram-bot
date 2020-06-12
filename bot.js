@@ -45,13 +45,14 @@ function generalCallback(msg) {
 
 
 function commandListCallback(msg, match) {
+  const chat_id = msg.chat.id;
   if(msg.from.id !== OWNER) {
     if(!USERS.map(x => x.ID).includes(msg.from.id)) {
-      console.log("wrong person tried to execute 'restart' command")
+      console.log(chat_id)
+      console.log("wrong person tried to execute LIST command")
       return;
     }
   }
-  const chat_id = msg.chat.id;
   const status = {
     online: "\u{2705}",
     stopping: "\u{1F6AB}",
